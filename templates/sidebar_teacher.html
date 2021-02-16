@@ -1,0 +1,43 @@
+   <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="javascript:;" class="simple-text">
+                      Your Logo
+                    </a>
+                </div>
+
+                <ul class="nav">
+                   {% url 'manager:studentlist' as studentlist %}
+                    <li class="nav-item {% if request.path == studentlist %} active {% endif %}">
+                        <a class="nav-link" href="{% url 'manager:studentlist' %}">
+                            <i class="nc-icon nc-icon nc-paper-2"></i>
+                            <p>عرض الطلاب</p>
+                        </a>
+                    </li>
+                    {% url 'manager:addlectureform' as addlectureform %}
+                    <li>
+                        <a class="nav-link {% if request.path ==  addlectureform  %} active {% endif %}"
+                           href="{% url 'manager:addlectureform' %}">
+                            <i class="nc-icon nc-bell-55"></i>
+                            <p>اضافة مواعيد دروس</p>
+                        </a>
+                    </li>
+                    {% url 'manager:lecturelist' as lecturelist %}
+                    <li>
+                        <a class="nav-link {% if request.path ==  lecturelist  %} active {% endif %}"
+                           href="{% url 'manager:lecturelist' %}">
+                            <i class="nc-icon nc-bell-55"></i>
+                            <p>مواعيد الدروس</p>
+                        </a>
+                    </li>
+
+                     {% url 'teacher:takeabsence' as takeabsence %}
+                    <li>
+                        <a class="nav-link {% if request.path == takeabsence  %} active {% endif %}"
+                           href="{% url 'teacher:takeabsence' %}">
+                            <i class="nc-icon nc-bell-55"></i>
+                            <p>الغياب والحضور</p>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>

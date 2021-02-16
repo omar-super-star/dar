@@ -1,0 +1,234 @@
+{% extends 'base.html' %}
+{% block style %}
+<style>
+    .notvalid
+    {
+    cursor: no-drop;
+    }
+
+</style>
+       {% endblock style %}
+{% block content %}
+ <div class="col-md-12" >
+     {{lecture}}
+     <div class="content table-responsive table-full-width">
+
+    <table id="studenttable" class="table table-hover table-striped" data-page-length='100' >
+      <thead class="thead-light">
+        <tr>
+          <th>الرقم</th>
+          <th>الاسم</th>
+<th></th>
+<th></th>
+            <th></th>
+            <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for stu in students.object_list %}
+      <tr>
+       <td>{{forloop.counter}}</td>
+          <td>{{stu.student.user.username}}</td>
+<td>
+    <button  class='btn btn-primary '
+       onclick="takeabsence({{stu.id}},false)"
+       id="{{stu.student.id}}_False"
+             >حاضر</button></td>
+          <td>
+    <button  class='btn btn-primary '
+       onclick="takeabsence({{stu.id}},true)"
+       id="{{stu.student.id}}_True"
+             >غائب</button></td>
+           <td>
+    <button id="{{stu.student.id}}" onclick="homework(event)" class='btn btn-primary' disabled>عرض الواجب </button></td>
+     </tr>
+
+
+      {% endfor %}
+      </tbody>
+    </table>
+     </div>
+ </div>
+<div>
+      <ul class="pagination" id="pagin">
+          {% if students.has_previous %}
+           <li class="page-item">
+        <a class="page-link link-page" href="?page={{students.previous_page_number}}" style="display:inline-block" >prevpage</a>
+    </li>
+          {% else %}
+           <li class="page-item">
+        <a class="page-link link-page notvalid"  style="display:inline-block" disabled>prevpage</a>
+    </li>
+          {% endif %}
+          {% for page in pages %}
+    <li class="page-item">
+        <a class="page-link link-page" href="?page={{page}}" style="display:none" >{{page}}</a>
+    </li>
+          {% endfor %}
+         {% if students.has_next %}
+           <li class="page-item">
+        <a class="page-link link-page" href="?page={{students.next_page_number}}" style="display:inline-block" >nextpage</a>
+    </li>
+          {% else %}
+           <li class="page-item">
+        <a class="page-link link-page notvalid"  style="display:inline-block" disabled>next page</a>
+    </li>
+          {% endif %}
+  </ul>
+    <button  class='btn btn-primary '
+       onclick="reload()"
+             >اعادة تحميل</button>
+  </div>
+
+{% endblock content %}
+
+{% block script %}
+
+<script>
+console.log(window.location.href)
+let url = new URL(window.location.href)
+let params = new URLSearchParams(url.search);
+let pages = params.get('page')
+console.log(pages)
+
+var eles=$(".link-page")
+var l=eles.length
+if(pages === null){
+   console.log(pages)
+   params.append("page", 1);
+   pages=params.get('page')
+
+
+}
+if (pages < l ){
+    console.log("first",eles[pages])
+    eles[pages].style.display="inline-block";
+if (pages != l-1){
+console.log("sec",eles[Number(pages)+1])
+    eles[Number(pages)+1].style.display="inline-block";
+}
+if (pages !=1){
+console.log("th",eles[pages-1])
+     eles[pages-1].style.display="inline-block"
+}
+}
+
+function pageactive(ele){
+    console.log("ele",ele)
+}
+
+function reload(){
+  location.reload()
+}
+function takeabsence(stuid,statue){
+urllist=window.location.href.split("/");
+console.log(urllist);
+urllist.pop();
+urllist.pop();
+urllist.push("absence");
+urllist.push(stuid);
+urllist.push(statue);
+url=urllist.join("/");
+    fetch(url)
+  .then(response => response.json())
+  .then(data =>{
+
+  ele1=document.getElementById(`${data.id}`);
+
+  ele1.disabled=true;
+  ele1.className+=`notvalid`
+
+  ele2=document.getElementById(`${data.idc}`);
+  ele2.disabled=false;
+  ele2.className="btn btn-primary"
+
+  statue=data.id.split("_")[1]
+  id=data.id.split("_")[0]
+  btn=document.getElementById(`${id}`);
+   if(statue === "False"){
+   btn.disabled=false;
+   btn.className+=`btn btn-primary`
+   btn.id=btn.id+"_"+data.ida
+   }else{
+   btn.disabled=true;
+   btn.className+=`notvalid`
+   }
+
+  });
+}
+
+
+
+function homework(event){
+urllist=window.location.href.split("/");
+console.log(urllist);
+urllist.pop();
+urllist.pop();
+urllist.push("updatestudentform");
+
+console.log(event.target)
+ids=event.target.id.split("_")[0]
+ida=event.target.id.split("_")[1]
+urllist.push(ids);
+
+url=urllist.join("/");
+
+window.location.href=url+"?homework=true&&ida="+ida
+
+
+
+}
+
+function check(id){
+          urllist=window.location.href.split("/");
+          console.log(urllist);
+          urllist.pop();
+          urllist.pop();
+          urllist.push("checkabsence");
+          urllist.push(id);
+          url=urllist.join("/");
+   fetch(url)
+  .then(response => response.json())
+  .then(data =>{
+   console.log(data)
+   datares=data.res
+   for (const data of datares) {
+         ele1=document.getElementById(`${data.id}`);
+
+        ele1.disabled=true;
+        ele1.className+=`notvalid`;
+
+        ele2=document.getElementById(`${data.idc}`);
+        ele2.disabled=false;
+        ele2.className="btn btn-primary";
+
+        statue=data.id.split("_")[1]
+        id=data.id.split("_")[0]
+        btn=document.getElementById(`${id}`);
+        if(data.degree !== null){
+            btn.innerHTML="تمت المشاهدة"
+        }
+        if(statue === "False"){
+            btn.disabled=false;
+            btn.className+=`btn btn-primary`
+            btn.id=btn.id+"_"+data.ida
+        }else{
+             btn.disabled=true;
+             btn.className+=`notvalid`
+   }
+
+
+}
+
+  });
+}
+check({{lecture.id}})
+
+/*if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+  check({{lecture.id}});
+}*/
+
+
+</script>
+
+{% endblock script %}

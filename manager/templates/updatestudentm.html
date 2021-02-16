@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block style %}
+<style>
+    .pointer {cursor: pointer;}
+</style>
+       {% endblock style %}
+{% block content %}
+<form style="text-align:right" method="post" action="{% url 'manager:updatestudent' student.id%}" id="form">
+    {% csrf_token %}
+    {{form_student}}
+    <div style="text-align:center" >
+    <input type="submit" value="اضافة طالب" class="btn btn-success w-25 m-5 pointer"/>
+    </div>
+</form>
+
+{% endblock content %}
+
+{% block script %}
+<script>
+let url = new URL(window.location.href)
+let params = new URLSearchParams(url.search);
+let error = params.get('err')
+let sucsses=params.get("statue")
+var stringToHTML = function (str) {
+	var parser = new DOMParser();
+	var doc = parser.parseFromString(str, 'text/html');
+	l=doc.body.childNodes
+	console.log(doc.body)
+	console.log(l)
+	parent=document.getElementById("form")
+	for (i of l[0].childNodes){
+	    text=i.childNodes[0].textContent;
+	    id="id_"+text;
+	    console.log(id)
+	    child=document.getElementById(id);
+	    console.log(child)
+	    parent.insertBefore(i.childNodes[1], child);
+	}
+};
+stringToHTML(error)
+let firstadd=true
+
+
+if(sucsses === 'successed' && firstadd){
+  alert("تمت اضافة الطالب بنجاح")
+  window.location.href=window.location.href.split("?")[0]
+  firstadd=false
+}
+</script>
+
+       {% endblock script %}

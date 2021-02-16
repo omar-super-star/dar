@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<style>
+
+</style>
+       {% endblock style %}
+{% block content %}
+
+ <div class="main-body">
+
+          <!-- Breadcrumb -->
+
+          <!-- /Breadcrumb -->
+
+
+            <div class="col-md-12">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">الاسم</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{teacher.user.username}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">المحاضرات</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                    <a href="{% url 'manager:studentlistteacher' teacher.id %}"class='btn btn-primary'>المحاضرات</a>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">الطلاب</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                       <a href="{% url 'manager:lecturelistteacher' teacher.id %}"class='btn btn-primary'>الطلاب</a>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+{% endblock content %}
+
+{% block script %}
+<script>
+
+</script>
+
+       {% endblock script %}

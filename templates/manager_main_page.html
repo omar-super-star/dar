@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% load geturl %}
+ {% block content %}
+<p>لب مرحبا بك أيها المدير </p>
+
+{% geturl request.GET.urlencode %}
+{%endblock content %}

@@ -1,0 +1,73 @@
+   <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="javascript:;" class="simple-text">
+                      Your Logo
+                    </a>
+                </div>
+                <ul class="nav">
+                     {% url 'manager:addteacherform' as addteacherform %}
+                    <li class="nav-item {% if request.path == addteacherform %} active {% endif %} ">
+                        <a class="nav-link" href="{% url 'manager:addteacherform' %}">
+                            <i class="nc-icon nc-icon nc-paper-2"></i>
+                            <p>اضافة مدرسين</p>
+                        </a>
+                    </li>
+                    {% url 'manager:teacherlist' as teacherlist %}
+                    <li class="nav-item {% if request.path == teacherlist %} active {% endif %}">
+
+                        <a class="nav-link" href="{% url 'manager:teacherlist' %}">
+                            <i class="nc-icon nc-icon nc-paper-2"></i>
+                            <p>عرض مدرسين</p>
+                        </a>
+                    </li>
+                      {% url 'manager:addstudentform' as addstudentform %}
+                    <li class="nav-item {% if request.path == addstudentform %} active {% endif %}">
+                        <a class="nav-link" href="{% url 'manager:addstudentform' %}">
+                            <i class="nc-icon nc-icon nc-paper-2"></i>
+                            <p>اضافة طلاب</p>
+                        </a>
+                    </li>
+                     {% url 'manager:studentlist' as studentlist %}
+                    <li class="nav-item {% if request.path == studentlist %} active {% endif %}">
+                        <a class="nav-link" href="{% url 'manager:studentlist' %}">
+                            <i class="nc-icon nc-icon nc-paper-2"></i>
+                            <p>عرض الطلاب</p>
+                        </a>
+                    </li>
+                      {% url 'manager:addlectureform' as addlectureform %}
+                    <li class="nav-item {% if request.path == addlectureform %} active {% endif %}">
+                        <a class="nav-link" href="{% url 'manager:addlectureform' %}">
+                            <i class="nc-icon nc-bell-55"></i>
+                            <p>اضافة مواعيد دروس</p>
+                        </a>
+                    </li>
+                     {% url 'manager:lecturelist' as lecturelist %}
+                    <li class="nav-item {% if request.path == lecturelist %} active {% endif %}">
+                        <a class="nav-link" href="{% url 'manager:lecturelist' %}">
+                            <i class="nc-icon nc-bell-55"></i>
+                            <p>مواعيد الدروس</p>
+                        </a>
+                    </li>
+                        {% url 'manager:absecntparcode' as absecntparcode %}
+                    <li class="nav-item {% if request.path == absecntparcode %} active {% endif %}">
+                        <a class="nav-link" href="{% url 'manager:absecntparcode' %}">
+                            <i class="nc-icon nc-bell-55"></i>
+                            <p>حضور وغياب</p>
+                        </a>
+                    </li>
+                        {% url 'manager:changepassword' as changepassword %}
+                    <li class="nav-item {% if request.path == changepassword %} active {% endif %}">
+                        <a class="nav-link" href="{% url 'manager:changepassword' %}">
+                            <i class="nc-icon nc-bell-55"></i>
+                            <p>تغيير كلمة مرور الطالب</p>
+                        </a>
+                    </li>
+
+                    <!--<li class="nav-item {% if request.path == addlectureform %} active {% endif %}">
+                        <a class="nav-link active" href="javascript:;">
+                            <i class="nc-icon nc-alien-33"></i>
+                            <p>اعدادات</p>
+                        </a>
+                    </li>-->
+                </ul>
+            </div>

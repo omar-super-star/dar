@@ -1,0 +1,198 @@
+
+
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+{% if not student.paid %}
+<script>
+
+function paid(){
+fetch("{% url 'manager:paid' student.id %}")
+.then( res => res.json)
+.then(data=>{
+  document.getElementById(`paid`).style.display='none';
+   document.getElementById(`statue`).innerHTML="دفع";
+
+
+
+ })
+
+}
+
+
+</script>
+{% endif %}
+<style>
+/*body{
+    margin-top:20px;
+    color: #1a202c;
+    text-align: left;
+    background-color: #e2e8f0;
+}
+.main-body {
+    padding: 15px;
+}
+.card {
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+
+.card-body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1rem;
+}
+
+.gutters-sm {
+    margin-right: -8px;
+    margin-left: -8px;
+}
+
+.gutters-sm>.col, .gutters-sm>[class*=col-] {
+    padding-right: 8px;
+    padding-left: 8px;
+}
+.mb-3, .my-3 {
+    margin-bottom: 1rem!important;
+}
+
+.bg-gray-300 {
+    background-color: #e2e8f0;
+}
+.h-100 {
+    height: 100%!important;
+}
+.shadow-none {
+    box-shadow: none!important;
+}*/
+</style>
+       {% endblock style %}
+{% block content %}
+<div class="main-body">
+
+          <!-- Breadcrumb -->
+
+          <!-- /Breadcrumb -->
+
+          <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex flex-column align-items-center text-center">
+                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                    <div class="mt-3">
+                      <h4>{{student.name}}</h4>
+                      {% if user.is_student %}
+                      {% else %}
+                      <a href="{% url 'teacher:updatestudentform' student.id %}"> <button class="btn btn-primary">تعديل بيانات الطالب</button> </a>
+                      <hr>
+
+                     <a href="{% static 'barcodes' %}/{{student.user.username}}.jpg"> <button class="btn btn-primary">تحميل صورة الباركوود</button> </a>
+                   {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-8">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">الاسم</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{student.name}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">اسم الشيخ</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{student.teacher.user.username}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">مقدار الحفظ</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{student.aya}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">المستوى</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{student.degree}}
+                    </div>
+                  </div>
+                  <hr>
+                   <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">الواجب</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{student.homework}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+
+                    <div class="col-sm-3">
+                      <h6 class="mb-0"> المواظبة على الحضور</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                    {{absence}}%   <a href="{% url 'student:studenabscentdata' student.id %}"
+                                      class='btn btn-primary'>عرض سجل الغياب</a>
+                    </div>
+                  </div>
+                    <hr>
+                     <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0"> حالةالدفع</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                  {% if student.notpaid %}
+                      معفي من الرسم بسبب {{student.resoenofnotpaid}}
+                      {% elif student.paid %}
+                         دفع
+                      {% else %}
+                        <span id="statue">لم يدفع</span>
+                        <button onclick="paid()" id="paid" class='btn btn-primary'>
+                            الدفع
+                        </button>
+                    {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+{% endblock content %}
+
+{% block script %}
+
+
+       {% endblock script %}

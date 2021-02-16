@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block style %}
+<style>
+    .notvalid
+    {
+    cursor: no-drop;
+    }
+
+</style>
+       {% endblock style %}
+{% block content %}
+ <div class="col-md-12 " >
+<div class="card card-plain">
+     <div class="content table-responsive table-full-width" >
+
+    <table id="lecturetable" class="table table-hover table-striped" data-page-length='100' >
+      <thead >
+        <tr>
+          <th>الرقم</th>
+          <th>الاسم</th>
+            <th>الموعد</th>
+<th></th>
+
+        </tr>
+      </thead>
+      <tbody>
+      {% for lecture in lectures.object_list %}
+      <tr>
+       <td>{{forloop.counter}}</td>
+          <td>{{lecture}}</td>
+          <td>{{lecture.day}} {{lecture.hour}}</td>
+<td>
+    <a href="{% url 'manager:lecturedetail' lecture.id %}"class='btn btn-primary'>view</a>
+</td>
+     </tr>
+
+      {% endfor %}
+      </tbody>
+    </table>
+     </div>
+ </div>
+ </div>
+<div>
+      <ul class="pagination" id="pagin">
+          {% if lectures.has_previous %}
+           <li class="page-item">
+        <a class="page-link link-page" href="?page={{lectures.previous_page_number}}" style="display:inline-block" >prevpage</a>
+    </li>
+          {% else %}
+           <li class="page-item">
+        <a class="page-link link-page notvalid"  style="display:inline-block" disabled>prevpage</a>
+    </li>
+          {% endif %}
+          {% for page in pages %}
+    <li class="page-item">
+        <a class="page-link link-page" href="?page={{page}}" style="display:none" >{{page}}</a>
+    </li>
+          {% endfor %}
+         {% if lectures.has_next %}
+           <li class="page-item">
+        <a class="page-link link-page" href="?page={{lectures.next_page_number}}" style="display:inline-block" >nextpage</a>
+    </li>
+          {% else %}
+           <li class="page-item">
+        <a class="page-link link-page notvalid"  style="display:inline-block" disabled>next page</a>
+    </li>
+          {% endif %}
+  </ul>
+  </div>
+
+{% endblock content %}
+
+{% block script %}
+
+<script>
+
+console.log(window.location.href)
+let url = new URL(window.location.href)
+let params = new URLSearchParams(url.search);
+let pages = params.get('page')
+console.log(pages)
+
+var eles=$(".link-page")
+var l=eles.length
+
+if(pages === null){
+   console.log(pages)
+   params.append("page", 1);
+   pages=params.get('page')
+
+
+}
+if (pages < l ){
+    console.log("first",eles[pages])
+    eles[pages].style.display="inline-block";
+if (pages != l-1){
+console.log("sec",eles[Number(pages)+1])
+    eles[Number(pages)+1].style.display="inline-block";
+}
+if (pages !=1){
+console.log("th",eles[pages-1])
+     eles[pages-1].style.display="inline-block"
+}
+}
+
+function pageactive(ele){
+    console.log("ele",ele)
+}
+
+</script>
+
+{% endblock script %}

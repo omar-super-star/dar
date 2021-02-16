@@ -1,0 +1,25 @@
+   <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="javascript:;" class="simple-text">
+                      Your Logo
+                    </a>
+                </div>
+                <ul class="nav">
+                    {% url 'manager:studentlist' as studentlist %}
+                    <li class="nav-item {% if request.path == studentlist %} active {% endif %}">
+                        <a class="nav-link" href="{% url 'manager:studentlist' %}">
+                            <i class="nc-icon nc-icon nc-paper-2"></i>
+                            <p>عرض الطلاب</p>
+                        </a>
+                    </li>
+                    <!--<li>
+                        {% url 'student:studenabscent' as studenabscent %}
+                        <a class="nav-link {% if request.path == studenabscent  %} active {% endif %}"
+                           href="{% url 'student:studenabscent' %}">
+                            <i class="nc-icon nc-bell-55"></i>
+                            <p>غياب الطالب</p>
+                        </a>
+                    </li>-->
+
+                </ul>
+            </div>
